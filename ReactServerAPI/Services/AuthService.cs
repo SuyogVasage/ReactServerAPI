@@ -1,5 +1,4 @@
 ﻿
-
 namespace ReactServerAPI.Services
 {
     public class AuthService
@@ -34,21 +33,19 @@ namespace ReactServerAPI.Services
                 //var result1 = await roleManager.CreateAsync(role);
                 var addRole = await _userManager.AddToRoleAsync(student, role.Name);
 
-
                 //Logic for mail
 
-                //MailMessage mail = new MailMessage();
-                //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                //mail.From = new MailAddress("suyog.vasage@coditas.com");
-                //mail.To.Add(user.Email);
-                //mail.Subject = "User Credentials";
-                //mail.Body = $"Email:- {user.Email}\n" +
-                //    $"Password:-{user.Password}";
-                //SmtpServer.Port = 587;
-                //SmtpServer.Credentials = new System.Net.NetworkCredential("suyog.vasage@coditas.com", "Hitman45$");
-                //SmtpServer.EnableSsl = true;
-                //SmtpServer.Send(mail);
-
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("suyog.vasage@coditas.com");
+                mail.To.Add(user.Email);
+                mail.Subject = "User Credentials";
+                mail.Body = $"Email:- {user.Email}\n" +
+                    $"Password:-{user.Password}";
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("suyog.vasage@coditas.com", "Hitman45$");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
 
                 response.Message = $"User {user.Email} is registered Successfully";
 
@@ -61,41 +58,12 @@ namespace ReactServerAPI.Services
             return response;
         }
 
-        public async Task<IdentityUser> AuthenticateUserAsync1(LoginUser inputModel)
-        {
-            // SIgnin the user
-            var result = await _signInManager.PasswordSignInAsync(inputModel.Email, inputModel.Password, false, lockoutOnFailure: true);
-            var student = await _userManager.FindByEmailAsync(inputModel.Email);
-
-            //HttpContext.Session.SetString(student.Id, "UserID");
-
-            if (result.Succeeded)
-            {
-                return student;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-            public async Task<string> AuthenticateUserAsync(LoginUser inputModel)
+        public async Task<string> AuthenticateUserAsync(LoginUser inputModel)
         {
             string jwtToken = "";
             // SIgnin the user
             var result = await _signInManager.PasswordSignInAsync(inputModel.Email, inputModel.Password, false, lockoutOnFailure: true);
             var student = await _userManager.FindByEmailAsync(inputModel.Email);
-
-            //HttpContext.Session.SetString(student.Id, "UserID");
-
-            //if (result.Succeeded)
-            //{
-            //    return student;
-            //}
-            //else
-            //{
-            //   return null; 
-            //}
 
             if (result.Succeeded)
             {
@@ -144,5 +112,3 @@ namespace ReactServerAPI.Services
 }
 
 
-//mail.From = new MailAddress("suyog.vasage@coditas.com");
-//SmtpServer.Credentials = new System.Net.NetworkCredential("suyog.vasage@coditas.com", "Hitman45$");

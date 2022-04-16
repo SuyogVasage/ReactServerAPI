@@ -13,4 +13,15 @@ namespace ReactServerAPI.Models
         public double History { get; set; }
         public DateTime Date { get; set; }
     }
+
+    public partial class StudentMarks
+    {
+        public int Urn { get; set; }
+        public string? MailID { get; set; }
+        public double MathsScore { get; set; }
+        public double SciScore { get; set; }
+        public double HistScore { get; set; }
+        public double GeoScore { get; set; }
+        public DateTime EntryDate { get; set; }
+    }
 }

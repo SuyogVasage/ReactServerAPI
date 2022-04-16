@@ -1,0 +1,18 @@
+Application:- ReactServerAPI
+Technology:- ASP.NETCore WebAPI
+Author:- Suyog Vasage
+
+APIs:-
+1)Login Page
+Post
+/api/Admin/login
+2)Admin Page
+Post
+/api/Admin/create
+3)User Page
+Enter Marks
+Get
+/api/Mark/Get/{EmailID}
+Get Marks
+Post
+/api/Mark/Post/create

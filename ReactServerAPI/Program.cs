@@ -61,11 +61,14 @@ builder.Services.AddAuthentication(x =>
 
 
 builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-     {
-         // SUpress the defualut Camel Casing for Property NAmes
-         options.JsonSerializerOptions.PropertyNamingPolicy = null;
-     });
+        .AddJsonOptions(options => 
+        {
+            // SUpress the defualut Camel Casing for Property NAmes
+            options.JsonSerializerOptions.PropertyNamingPolicy = null;
+        }).
+        AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

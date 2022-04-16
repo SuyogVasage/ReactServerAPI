@@ -1,41 +1,54 @@
 ﻿
 namespace ReactServerAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize]
     public class MarkController : ControllerBase
     {
         private readonly IService<Mark, int> markService;
-
-        public MarkController(IService<Mark, int> markService)
+        private readonly UserManager<IdentityUser> userManager;
+        public MarkController(IService<Mark, int> markService, UserManager<IdentityUser> userManager)
         {
             this.markService = markService;
+            this.userManager = userManager;
         }
 
-        [HttpGet("/getall")]
-        public IActionResult Get()
+        [HttpGet("{EmailID}")]
+        //[ActionName("getmarks")]
+        public async Task<IActionResult> Get(string EmailID)
         {
-            var res = markService.GetAsync().Result;
-            return Ok(res);
-        }
-        [HttpGet("/get/{id}")]
-        public IActionResult Get(int id)
-        {
-            var res = markService.GetAsync(id).Result;
-            return Ok(res);
+            var user = await userManager.FindByEmailAsync(EmailID);
+            var res = markService.GetAsync().Result.Where(e => e.UserId == user.Id).ToList();
+            var clientOutput = from r in res
+                               select new
+                               {
+                                   MathsScore = r.Mathematics,
+                                   ScienceScore = r.Science,
+                                   HistoryScore = r.History,
+                                   GeograpgyScore = r.Geography,
+                                   Date = r.Date,
+                               };
+            return Ok(clientOutput);
         }
 
-        [HttpPost("/create")]
-        //[Authorize(Roles="User")]
-        public IActionResult Post(string email, Mark mark)
+        [HttpPost("create")]
+        //[ActionName("postmarks")]
+        public async Task<IActionResult> Post(StudentMarks mark)
         {
             if (ModelState.IsValid)
             {
-                //Need to set ID
-                //mark.UserId = HttpContext.Session.GetString("UserID");
-                mark.UserId = email;
-                var res = markService.CreateAsync(mark).Result;
+                var res = await userManager.FindByEmailAsync(mark.MailID);
+                var student = new Mark()
+                {
+                    UserId = res.Id,
+                    Mathematics = mark.MathsScore,
+                    Science = mark.SciScore,
+                    History = mark.HistScore,
+                    Geography = mark.GeoScore,
+                    Date = DateTime.Now
+                };
+
+                var result = markService.CreateAsync(student);
                 return Ok(res);
             }
             else
