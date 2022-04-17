@@ -48,8 +48,8 @@ namespace ReactServerAPI.Controllers
                     Date = DateTime.Now
                 };
 
-                var result = markService.CreateAsync(student);
-                return Ok(res);
+                var result = await markService.CreateAsync(student);
+                return Ok(result);
             }
             else
             {

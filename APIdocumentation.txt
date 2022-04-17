@@ -6,9 +6,11 @@ APIs:-
 1)Login Page
 Post
 /api/Admin/login
+
 2)Admin Page
 Post
 /api/Admin/create
+
 3)User Page
 Enter Marks
 Get
@@ -16,3 +18,20 @@ Get
 Get Marks
 Post
 /api/Mark/Post/create
+
+Note:- While Login hold user email id to send it in Get marks and Post marks
+
+Post Methods are requring data in JSON fromat
+
+ngrok link will be provided when both application will run simultaneously.
+It will be like this;
+for example, https://fb23-2409-4042-4e02-952a-81e0-8acb-9258-8fbb.in.ngrok.io/api/Mark/Get/suyog15312@gmail.com
+
+Admin Credenttials
+Email:- Admin@gmail.com
+Password:- P@ssw0rd
+
+User's Credentials
+Email:- suyog15312@gmail.com
+Email:- 15312suyog@gmail.com
+Password:- P@ssw0rd (same for two users)

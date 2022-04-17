@@ -16,7 +16,7 @@ namespace ReactServerAPI.Models
 
     public partial class StudentMarks
     {
-        public int Urn { get; set; }
+        public int UserID { get; set; }
         public string? MailID { get; set; }
         public double MathsScore { get; set; }
         public double SciScore { get; set; }
