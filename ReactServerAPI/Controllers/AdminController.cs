@@ -18,6 +18,10 @@
         [ActionName("create")]
         public async Task<IActionResult> Create(RegisterUser registerUser)
         {
+            if(registerUser.Email == null || registerUser.UserName == null || registerUser.Password == null)
+            {
+                return BadRequest("Data shi se enter kro bhai");
+            }
             if (ModelState.IsValid)
             {
                 var response = await _authService.RegisterNewUserAsync(registerUser);
@@ -27,23 +31,24 @@
             return BadRequest(ModelState);
         }
 
+
         [HttpPost]
         [ActionName("login")]
         public async Task<IActionResult> Login(LoginUser inputModel)
         {
+            if(inputModel.Email == null || inputModel.Password == null)
+            {
+                return BadRequest("Data shi se enter kro bhai");
+            }
             if (ModelState.IsValid)
             {
                 var msg = await _authService.AuthenticateUserAsync(inputModel);
-                if (msg == null)
+                if (msg.Message == null)
                 {
                     return Unauthorized("The Authentication Failed");
                 }
-                var ResponseData = new ResponseData()
-                {
-                    Message = "Login Succesfull",
-                };
 
-                return Ok(ResponseData);
+                return Ok(msg);
             }
             return BadRequest(ModelState);
         }

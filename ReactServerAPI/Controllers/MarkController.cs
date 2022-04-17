@@ -35,6 +35,10 @@ namespace ReactServerAPI.Controllers
         //[ActionName("postmarks")]
         public async Task<IActionResult> Post(StudentMarks mark)
         {
+            if(mark.MailID == null)
+            {
+                return BadRequest("Data shi se enter kro bhai");
+            }
             if (ModelState.IsValid)
             {
                 var res = await userManager.FindByEmailAsync(mark.MailID);
